@@ -6,6 +6,7 @@ from .models import User
 from django.shortcuts import render
 from rest_framework import status, generics
 from rest_framework.response import Response
+from rest_framework.permissions import IsAuthenticated
 
 from .serializer import RegistrationSerializer, UserSerializer
 
@@ -29,8 +30,12 @@ class RegistrationAPIView(generics.GenericAPIView):
         return Response({"Errors": serializer.errors}, status = status.HTTP_400_BAD_REQUEST)
 
 class UserView(APIView):
+    permission_classes = (IsAuthenticated, )
+    serializer_class = UserSerializer
 
     def get(self, request):
-        pass
+        user = request.user
+        serializer = self.serializer_class(user)
+        return Response(data=serializer.data)
 
 
