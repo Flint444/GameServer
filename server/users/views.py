@@ -1,10 +1,13 @@
 import uuid
 
+from rest_framework.views import APIView
+
+from .models import User
 from django.shortcuts import render
 from rest_framework import status, generics
 from rest_framework.response import Response
 
-from .serializer import RegistrationSerializer
+from .serializer import RegistrationSerializer, UserSerializer
 
 
 # Create your views here.
@@ -24,3 +27,10 @@ class RegistrationAPIView(generics.GenericAPIView):
             )
 
         return Response({"Errors": serializer.errors}, status = status.HTTP_400_BAD_REQUEST)
+
+class UserView(APIView):
+
+    def get(self, request):
+        pass
+
+
