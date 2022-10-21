@@ -8,7 +8,7 @@ from rest_framework import status, generics
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from .serializer import RegistrationSerializer, UserSerializer
+from .serializer import RegistrationSerializer, UserSerializer, RecordSerializer
 
 
 # Create your views here.
@@ -39,3 +39,9 @@ class UserView(APIView):
         return Response(data=serializer.data)
 
 
+class UserRecords(APIView):
+    permission_classes = (IsAuthenticated,)
+    def get(self, request):
+        users = User.objects.order_by('-record')
+        serializer = RecordSerializer(users, many=True)
+        return Response(data=serializer.data)
