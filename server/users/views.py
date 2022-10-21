@@ -45,3 +45,23 @@ class UserRecords(APIView):
         users = User.objects.order_by('-record')
         serializer = RecordSerializer(users, many=True)
         return Response(data=serializer.data)
+
+class UpdateBalance(APIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserSerializer
+
+    def put(self, request):
+        user = request.user
+        user.balance = request.data["balance"]
+        user.save()
+        return Response(data={'message': 'Баланс успешно изменён'})
+
+class UpdateRecord(APIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserSerializer
+
+    def put(self, request):
+        user = request.user
+        user.record = request.data["record"]
+        user.save()
+        return Response(data={'message': 'Рекорд успешно изменён'})
