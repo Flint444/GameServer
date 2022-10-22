@@ -8,3 +8,10 @@ class Achievements(models.Model):
 
     def __str__(self):
         return str(self.image)
+
+class UserAchievements(models.Model):
+    title = models.ForeignKey(Achievements, on_delete=models.CASCADE)
+    nickname = models.CharField(max_length=255)
+
+    class Meta:
+        unique_together = ('title', 'nickname')
