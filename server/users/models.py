@@ -8,6 +8,7 @@ class User(AbstractUser):
     password = models.CharField(max_length=255)
     balance = models.IntegerField(default=0, validators=[MinValueValidator(0)])
     record = models.IntegerField(default=0)
+    clicks_on_mole = models.IntegerField(default=0)
 
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = []

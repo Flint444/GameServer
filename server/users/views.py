@@ -65,3 +65,13 @@ class UpdateRecord(APIView):
         user.record = request.data["record"]
         user.save()
         return Response(data={'message': 'Рекорд успешно изменён'})
+
+class UpdateClicks(APIView):
+    permission_classes = (IsAuthenticated,)
+    serializer_class = UserSerializer
+
+    def put(self, request):
+        user = request.user
+        user.clicks_on_mole = request.data["clicks_on_mole"]
+        user.save()
+        return Response(data={'message': 'Рекорд успешно изменён'})
