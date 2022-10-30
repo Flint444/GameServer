@@ -74,4 +74,4 @@ class UpdateClicks(APIView):
         user = request.user
         user.clicks_on_mole = request.data["clicks_on_mole"]
         user.save()
-        return Response(data={'message': 'Рекорд успешно изменён'})
+        return Response(data={'message': 'Кол-во кликов по кроту успешно изменено'})
