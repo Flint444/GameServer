@@ -1,6 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from users.serializer import UserSerializer
 from .serializer import StoreSerializer, InventorySerializer
 from .models import Store, Inventory
 from rest_framework.permissions import IsAuthenticated
@@ -19,11 +20,14 @@ class ShowStore(APIView):
 
 class ShowInventory(APIView):
     permission_classes = (IsAuthenticated,)
+    serializer_class = UserSerializer
 
     def get(self, request):
-        user = Inventory.objects.all()
+        user = request.user
 
-        selializer = InventorySerializer(user, many=True)
+        user_inventory = Inventory.objects.filter(nickname_id = user.id)
+
+        selializer = InventorySerializer(user_inventory, many=True)
 
         return Response(selializer.data)
 
