@@ -15,7 +15,7 @@ class Achievements(models.Model):
 
 class UserAchievements(models.Model):
     title = models.ForeignKey(Achievements, on_delete=models.CASCADE)
-    nickname = nickname = models.ForeignKey(User, on_delete=models.CASCADE)
+    nickname = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('title', 'nickname')
