@@ -1,5 +1,8 @@
 from django.db import models
 
+from users.models import User
+
+
 # Create your models here.
 
 class Achievements(models.Model):
@@ -12,7 +15,7 @@ class Achievements(models.Model):
 
 class UserAchievements(models.Model):
     title = models.ForeignKey(Achievements, on_delete=models.CASCADE)
-    nickname = models.CharField(max_length=255)
+    nickname = nickname = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('title', 'nickname')
