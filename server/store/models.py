@@ -16,7 +16,7 @@ class Store(models.Model):
 
 class Inventory(models.Model):
     title = models.ForeignKey(Store, on_delete=models.CASCADE)
-    nickname = nickname = models.ForeignKey(User, on_delete=models.CASCADE)
+    nickname = models.ForeignKey(User, on_delete=models.CASCADE)
 
     class Meta:
         unique_together = ('title', 'nickname')
