@@ -1,14 +1,16 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 
 from users.serializer import UserSerializer
 from .serializer import AchievementsSerializer, GetUserAchievements
 from .models import Achievements, UserAchievements
 from rest_framework.permissions import IsAuthenticated
 
-class ShowAchievements(APIView):
+class ShowAchievements(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
+    serializer_class = AchievementsSerializer
     def get(self, request):
         user = Achievements.objects.all()
 
@@ -16,9 +18,9 @@ class ShowAchievements(APIView):
 
         return Response(selializer.data)
 
-class UserGetAchievements(APIView):
+class UserGetAchievements(GenericAPIView):
     permission_classes = (IsAuthenticated,)
-    serializer_class = UserSerializer
+    serializer_class = GetUserAchievements
 
     def get(self, request):
         user = request.user
@@ -29,9 +31,10 @@ class UserGetAchievements(APIView):
 
         return Response(selializer.data)
 
-class GetAchievements(APIView):
+class GetAchievements(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
+    serializer_class = GetUserAchievements
     def post(self, request):
         serializer = GetUserAchievements(data=request.data)
         serializer.is_valid(raise_exception=True)

@@ -1,5 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 
 from users.serializer import UserSerializer
 from .serializer import StoreSerializer, InventorySerializer
@@ -8,9 +9,10 @@ from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 
-class ShowStore(APIView):
+class ShowStore(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
+    serializer_class = StoreSerializer
     def get(self, request):
         user = Store.objects.order_by('title')
 
@@ -18,7 +20,7 @@ class ShowStore(APIView):
 
         return Response(selializer.data)
 
-class ShowInventory(APIView):
+class ShowInventory(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
@@ -31,9 +33,10 @@ class ShowInventory(APIView):
 
         return Response(selializer.data)
 
-class Buy(APIView):
+class Buy(GenericAPIView):
     permission_classes = (IsAuthenticated,)
 
+    serializer_class = InventorySerializer
     def post(self, request):
         serializer = InventorySerializer(data=request.data)
         serializer.is_valid(raise_exception=True)

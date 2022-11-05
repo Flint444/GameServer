@@ -1,6 +1,7 @@
 import uuid
 
 from rest_framework.views import APIView
+from rest_framework.generics import GenericAPIView
 
 from .models import User
 from django.shortcuts import render
@@ -12,7 +13,7 @@ from .serializer import RegistrationSerializer, UserSerializer, RecordSerializer
 
 
 # Create your views here.
-class RegistrationAPIView(generics.GenericAPIView):
+class RegistrationAPIView(GenericAPIView):
 
     serializer_class = RegistrationSerializer
 
@@ -29,7 +30,7 @@ class RegistrationAPIView(generics.GenericAPIView):
 
         return Response({"Errors": serializer.errors}, status = status.HTTP_400_BAD_REQUEST)
 
-class UserView(APIView):
+class UserView(GenericAPIView):
     permission_classes = (IsAuthenticated, )
     serializer_class = UserSerializer
 
@@ -39,14 +40,15 @@ class UserView(APIView):
         return Response(data=serializer.data)
 
 
-class UserRecords(APIView):
+class UserRecords(GenericAPIView):
     permission_classes = (IsAuthenticated,)
+    serializer_class = RecordSerializer
     def get(self, request):
         users = User.objects.order_by('-record')
         serializer = RecordSerializer(users, many=True)
         return Response(data=serializer.data)
 
-class UpdateBalance(APIView):
+class UpdateBalance(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
@@ -56,7 +58,7 @@ class UpdateBalance(APIView):
         user.save()
         return Response(data={'message': 'Баланс успешно изменён'})
 
-class UpdateRecord(APIView):
+class UpdateRecord(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
@@ -66,7 +68,7 @@ class UpdateRecord(APIView):
         user.save()
         return Response(data={'message': 'Рекорд успешно изменён'})
 
-class UpdateClicks(APIView):
+class UpdateClicks(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
