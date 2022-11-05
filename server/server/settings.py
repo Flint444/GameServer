@@ -45,12 +45,17 @@ INSTALLED_APPS = [
     'users',
     'store',
     'achievements',
+    'drf_yasg',
 ]
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     )
+}
+
+SWAGGER_SETTINGS = {
+   'DEFAULT_INFO': 'import.path.to.urls.api_info',
 }
 
 MIDDLEWARE = [
