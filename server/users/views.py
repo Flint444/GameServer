@@ -1,11 +1,9 @@
 import uuid
 
-from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
 
 from .models import User
-from django.shortcuts import render
-from rest_framework import status, generics
+from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
@@ -14,7 +12,7 @@ from .serializer import RegistrationSerializer, UserSerializer, RecordSerializer
 
 # Create your views here.
 class RegistrationAPIView(GenericAPIView):
-
+    """Регистрация пользователя"""
     serializer_class = RegistrationSerializer
 
     def post(self, request):
@@ -31,6 +29,7 @@ class RegistrationAPIView(GenericAPIView):
         return Response({"Errors": serializer.errors}, status = status.HTTP_400_BAD_REQUEST)
 
 class UserView(GenericAPIView):
+    """Получение данных текущего пользователя"""
     permission_classes = (IsAuthenticated, )
     serializer_class = UserSerializer
 
@@ -41,6 +40,7 @@ class UserView(GenericAPIView):
 
 
 class UserRecords(GenericAPIView):
+    """Получение данных рекордов в обратном порядке"""
     permission_classes = (IsAuthenticated,)
     serializer_class = RecordSerializer
     def get(self, request):
@@ -49,6 +49,7 @@ class UserRecords(GenericAPIView):
         return Response(data=serializer.data)
 
 class UpdateBalance(GenericAPIView):
+    """Заменить текущее значение баланса пользователя на указавнную сумму"""
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
@@ -59,6 +60,7 @@ class UpdateBalance(GenericAPIView):
         return Response(data={'message': 'Баланс успешно изменён'})
 
 class UpdateRecord(GenericAPIView):
+    """Изменить значение рекорда пользователя"""
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
@@ -69,6 +71,7 @@ class UpdateRecord(GenericAPIView):
         return Response(data={'message': 'Рекорд успешно изменён'})
 
 class UpdateClicks(GenericAPIView):
+    """Изменить число кликов по кроту"""
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 

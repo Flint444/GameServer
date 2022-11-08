@@ -56,7 +56,14 @@ REST_FRAMEWORK = {
 }
 
 SWAGGER_SETTINGS = {
-   'DEFAULT_INFO': 'import.path.to.urls.api_info',
+    'DEFAULT_INFO': 'import.path.to.urls.api_info',
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header'
+        }
+    },
 }
 
 MIDDLEWARE = [
