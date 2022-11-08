@@ -8,6 +8,7 @@ from .models import Achievements, UserAchievements
 from rest_framework.permissions import IsAuthenticated
 
 class ShowAchievements(GenericAPIView):
+    """Показать все достижения"""
     permission_classes = (IsAuthenticated,)
 
     serializer_class = AchievementsSerializer
@@ -19,6 +20,7 @@ class ShowAchievements(GenericAPIView):
         return Response(selializer.data)
 
 class UserGetAchievements(GenericAPIView):
+    """Показать достижения пользователя"""
     permission_classes = (IsAuthenticated,)
     serializer_class = GetUserAchievements
 
@@ -32,6 +34,7 @@ class UserGetAchievements(GenericAPIView):
         return Response(selializer.data)
 
 class GetAchievements(GenericAPIView):
+    """Получение достижения"""
     permission_classes = (IsAuthenticated,)
 
     serializer_class = GetUserAchievements

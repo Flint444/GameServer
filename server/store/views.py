@@ -10,6 +10,7 @@ from rest_framework.permissions import IsAuthenticated
 # Create your views here.
 
 class ShowStore(GenericAPIView):
+    """Отобразить магазин"""
     permission_classes = (IsAuthenticated,)
 
     serializer_class = StoreSerializer
@@ -21,6 +22,7 @@ class ShowStore(GenericAPIView):
         return Response(selializer.data)
 
 class ShowInventory(GenericAPIView):
+    """Отобразить инвентарь"""
     permission_classes = (IsAuthenticated,)
     serializer_class = UserSerializer
 
@@ -34,6 +36,7 @@ class ShowInventory(GenericAPIView):
         return Response(selializer.data)
 
 class Buy(GenericAPIView):
+    """Покупка предмета в магазине"""
     permission_classes = (IsAuthenticated,)
 
     serializer_class = InventorySerializer
