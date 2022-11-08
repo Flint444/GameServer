@@ -44,7 +44,7 @@ class UserRecords(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = RecordSerializer
     def get(self, request):
-        users = User.objects.order_by('-record')
+        users = User.objects.order_by('-record')[:10]
         serializer = RecordSerializer(users, many=True)
         return Response(data=serializer.data)
 
