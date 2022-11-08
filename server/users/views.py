@@ -7,7 +7,8 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from .serializer import RegistrationSerializer, UserSerializer, RecordSerializer
+from .serializer import RegistrationSerializer, UserSerializer, RecordSerializer, ChangeRecordSerializer, \
+    ChangeClickSerializer, ChangeBalanceSerializer
 
 
 # Create your views here.
@@ -51,7 +52,7 @@ class UserRecords(GenericAPIView):
 class UpdateBalance(GenericAPIView):
     """Заменить текущее значение баланса пользователя на указавнную сумму"""
     permission_classes = (IsAuthenticated,)
-    serializer_class = UserSerializer
+    serializer_class = ChangeBalanceSerializer
 
     def put(self, request):
         user = request.user
@@ -62,7 +63,7 @@ class UpdateBalance(GenericAPIView):
 class UpdateRecord(GenericAPIView):
     """Изменить значение рекорда пользователя"""
     permission_classes = (IsAuthenticated,)
-    serializer_class = UserSerializer
+    serializer_class = ChangeRecordSerializer
 
     def put(self, request):
         user = request.user
@@ -73,7 +74,7 @@ class UpdateRecord(GenericAPIView):
 class UpdateClicks(GenericAPIView):
     """Изменить число кликов по кроту"""
     permission_classes = (IsAuthenticated,)
-    serializer_class = UserSerializer
+    serializer_class = ChangeClickSerializer
 
     def put(self, request):
         user = request.user

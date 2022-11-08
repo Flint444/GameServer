@@ -36,3 +36,18 @@ class RecordSerializer(serializers.ModelSerializer):
         model = User
         fields = ['username', 'record']
 
+class ChangeRecordSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['record']
+
+class ChangeClickSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['clicks_on_mole']
+
+class ChangeBalanceSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['balance']
+
