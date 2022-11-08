@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'store',
     'achievements',
     'drf_yasg',
+    'rest_framework_swagger',
 ]
 
 REST_FRAMEWORK = {
