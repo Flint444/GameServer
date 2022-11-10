@@ -11,16 +11,16 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['Message','username', 'email', 'password']
+        fields = ['Message', 'username', 'email', 'password']
 
     def validate(self, args):
         email = args.get('email', None)
         username = args.get('username', None)
 
         if User.objects.filter(email = email).exists():
-            raise serializers.ValidationError({'email': ('email already exist')})
+            raise serializers.ValidationError({'email': ('Данная почта уже зарегистрирована')})
         if User.objects.filter(username = username).exists():
-            raise serializers.ValidationError({'username': ('nickname already exist')})
+            raise serializers.ValidationError({'username': ('Данная пользователь уже зарегистрирован')})
 
         return super().validate(args)
 

@@ -1,6 +1,8 @@
 import uuid
 
 from django.contrib.auth import logout
+from drf_yasg import openapi
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import GenericAPIView
 
 from .models import User
@@ -14,7 +16,10 @@ from .serializer import RegistrationSerializer, UserSerializer, RecordSerializer
 
 # Create your views here.
 class RegistrationAPIView(GenericAPIView):
-    """Регистрация пользователя"""
+    """
+    Регистрация пользователя
+
+    """
     serializer_class = RegistrationSerializer
 
     def post(self, request):
@@ -24,8 +29,7 @@ class RegistrationAPIView(GenericAPIView):
             serializer.save()
 
             return Response({
-                "Message": "Пользователь успешно создан",
-                "User": request.data}, status=status.HTTP_201_CREATED
+                "Message": "Вы успешно зарегистрировались",}, status=status.HTTP_201_CREATED
             )
         return Response({"Errors": serializer.errors}, status = status.HTTP_400_BAD_REQUEST)
 
