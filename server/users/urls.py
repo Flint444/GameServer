@@ -9,6 +9,7 @@ from .views import RegistrationAPIView, UserView, UserRecords, UpdateBalance, Up
 urlpatterns = [
     path('register', RegistrationAPIView.as_view()),
     path('login', TokenObtainPairView.as_view()),
+    #path('logout', UserLogout.as_view()),
     path('refresh-token', TokenRefreshView.as_view(), name='token_refresh'),
     path('user', UserView.as_view()),
     path('records', UserRecords.as_view()),

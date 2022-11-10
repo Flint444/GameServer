@@ -7,10 +7,11 @@ class RegistrationSerializer(serializers.ModelSerializer):
     username = serializers.CharField(max_length=50, min_length=4)
     email = serializers.EmailField(max_length=50, min_length=6)
     password = serializers.CharField(max_length=50, write_only=True)
+    Message = serializers.CharField(required=False)
 
     class Meta:
         model = User
-        fields = ['username', 'email', 'password']
+        fields = ['Message','username', 'email', 'password']
 
     def validate(self, args):
         email = args.get('email', None)
