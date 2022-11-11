@@ -2,24 +2,21 @@ from rest_framework import serializers
 from .models import User
 
 
-class RegistrationSerializer(serializers.ModelSerializer):
-
+class RegistrationSuccessSerializer(serializers.ModelSerializer):
     username = serializers.CharField(max_length=50, min_length=4)
     email = serializers.EmailField(max_length=50, min_length=6)
     password = serializers.CharField(max_length=50, write_only=True)
-    Message = serializers.CharField(required=False)
-
-    class Meta:
-        model = User
-        fields = ['Message', 'username', 'email', 'password']
+    message = serializers.CharField(read_only=True)
+    access = serializers.CharField(read_only=True)
+    refresh = serializers.CharField(read_only=True)
 
     def validate(self, args):
         email = args.get('email', None)
         username = args.get('username', None)
 
-        if User.objects.filter(email = email).exists():
+        if User.objects.filter(email=email).exists():
             raise serializers.ValidationError({'email': ('Данная почта уже зарегистрирована')})
-        if User.objects.filter(username = username).exists():
+        if User.objects.filter(username=username).exists():
             raise serializers.ValidationError({'username': ('Данная пользователь уже зарегистрирован')})
 
         return super().validate(args)
@@ -27,10 +24,20 @@ class RegistrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         return User.objects.create_user(**validated_data)
 
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'password', 'access', 'refresh', 'message']
+
+
+class MessageResponseSerializer(serializers.Serializer):
+    message = serializers.CharField()
+
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ['id','email', 'username', 'balance', 'record', 'clicks_on_mole']
+
 
 class RecordSerializer(serializers.ModelSerializer):
     class Meta:

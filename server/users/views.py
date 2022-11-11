@@ -1,7 +1,4 @@
-import uuid
-
-from django.contrib.auth import logout
-from drf_yasg import openapi
+from django.contrib.auth import get_user_model
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import GenericAPIView
 
@@ -10,9 +7,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
 
-from rest_framework.authtoken.models import Token
-from .serializer import RegistrationSerializer, UserSerializer, RecordSerializer, ChangeRecordSerializer, \
-    ChangeClickSerializer, ChangeBalanceSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+from .serializer import RegistrationSuccessSerializer, UserSerializer, RecordSerializer, ChangeRecordSerializer, \
+    ChangeClickSerializer, ChangeBalanceSerializer, MessageResponseSerializer
 
 # Create your views here.
 class RegistrationAPIView(GenericAPIView):
@@ -20,18 +17,26 @@ class RegistrationAPIView(GenericAPIView):
     Регистрация пользователя
 
     """
-    serializer_class = RegistrationSerializer
+    serializer_class = RegistrationSuccessSerializer
+    model = get_user_model()
 
+    @swagger_auto_schema(responses={201: RegistrationSuccessSerializer,
+                                    400: MessageResponseSerializer})
     def post(self, request):
-        serializer = self.get_serializer(data = request.data)
+        serializer = self.get_serializer(data=request.data)
 
         if serializer.is_valid():
-            serializer.save()
+            user = serializer.save()
+            refresh = RefreshToken.for_user(user)
+            access = refresh.access_token
+            data = serializer.data
+            data['refresh'] = str(refresh)
+            data['access'] = str(access)
+            data['message'] = "Вы успешно зарегестрировались"
 
-            return Response({
-                "Message": "Вы успешно зарегистрировались",}, status=status.HTTP_201_CREATED
-            )
-        return Response({"Errors": serializer.errors}, status = status.HTTP_400_BAD_REQUEST)
+            return Response(data, status=status.HTTP_201_CREATED)
+
+        return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
 # class UserLogout(GenericAPIView):
