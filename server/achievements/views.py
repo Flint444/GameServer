@@ -1,11 +1,10 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
-
-from users.serializer import UserSerializer
-from .serializer import AchievementsSerializer, GetUserAchievements
-from .models import Achievements, UserAchievements
 from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+
+from .models import Achievements, UserAchievements
+from .serializer import AchievementsSerializer, GetUserAchievements
+
 
 class ShowAchievements(GenericAPIView):
     """Показать все достижения"""

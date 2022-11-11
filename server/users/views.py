@@ -1,30 +1,25 @@
-from django.contrib.auth import get_user_model
-from drf_yasg.utils import swagger_auto_schema
+from drf_spectacular.utils import extend_schema
+from rest_framework import status
 from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.response import Response
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import User
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated, AllowAny
-
-from rest_framework_simplejwt.tokens import RefreshToken
 from .serializer import RegistrationSuccessSerializer, UserSerializer, RecordSerializer, ChangeRecordSerializer, \
-    ChangeClickSerializer, ChangeBalanceSerializer, MessageResponseSerializer, MyTokenObtainPairSerializer, \
-    DetailResponseSerializer
+    ChangeClickSerializer, ChangeBalanceSerializer, MessageResponseSerializer, MyTokenObtainPairSerializer
 
 
 # Create your views here.
 class RegistrationAPIView(GenericAPIView):
     """
     Регистрация пользователя
-
     """
     serializer_class = RegistrationSuccessSerializer
-    model = get_user_model()
 
-    @swagger_auto_schema(responses={201: RegistrationSuccessSerializer,
-                                    400: MessageResponseSerializer})
+    @extend_schema(responses={201: RegistrationSuccessSerializer,
+                              400: MessageResponseSerializer})
     def post(self, request):
         serializer = self.get_serializer(data=request.data)
 
