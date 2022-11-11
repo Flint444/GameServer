@@ -1,15 +1,18 @@
 from django.contrib.auth import get_user_model
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework.generics import GenericAPIView
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import User
 from rest_framework import status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 
 from rest_framework_simplejwt.tokens import RefreshToken
 from .serializer import RegistrationSuccessSerializer, UserSerializer, RecordSerializer, ChangeRecordSerializer, \
-    ChangeClickSerializer, ChangeBalanceSerializer, MessageResponseSerializer
+    ChangeClickSerializer, ChangeBalanceSerializer, MessageResponseSerializer, MyTokenObtainPairSerializer, \
+    DetailResponseSerializer
+
 
 # Create your views here.
 class RegistrationAPIView(GenericAPIView):
@@ -32,11 +35,17 @@ class RegistrationAPIView(GenericAPIView):
             data = serializer.data
             data['refresh'] = str(refresh)
             data['access'] = str(access)
-            data['message'] = "Вы успешно зарегестрировались"
+            data['message'] = "Вы успешно зарегистрировались"
 
             return Response(data, status=status.HTTP_201_CREATED)
 
         return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class MyObtainTokenPairView(TokenObtainPairView):
+
+    permission_classes = (AllowAny,)
+    serializer_class = MyTokenObtainPairSerializer
 
 
 # class UserLogout(GenericAPIView):
