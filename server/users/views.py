@@ -47,6 +47,16 @@ class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
 
+    @swagger_auto_schema(responses={201: DetailResponseSerializer,
+                                    400: MessageResponseSerializer})
+    @classmethod
+    def get_token(cls, user):
+        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+
+        # Add custom claims
+        token['username'] = user.username
+        return Response(token, status=status.HTTP_201_CREATED)
+
 
 # class UserLogout(GenericAPIView):
 #     """ Выход из аккаунта """

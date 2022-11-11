@@ -41,13 +41,9 @@ class DetailResponseSerializer(serializers.Serializer):
     detail = serializers.CharField()
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    @classmethod
-    def get_token(cls, user):
-        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
+    username = serializers.CharField(max_length=50, min_length=4)
+    password = serializers.CharField(max_length=50, write_only=True)
 
-        # Add custom claims
-        token['username'] = user.username
-        return token
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
