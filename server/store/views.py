@@ -1,11 +1,11 @@
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
 
 from users.serializer import UserSerializer
-from .serializer import StoreSerializer, InventorySerializer
 from .models import Store, Inventory
-from rest_framework.permissions import IsAuthenticated
+from .serializer import StoreSerializer, InventorySerializer
+
 
 # Create your views here.
 

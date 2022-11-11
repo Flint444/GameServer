@@ -1,16 +1,11 @@
-from drf_yasg.utils import swagger_auto_schema
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from rest_framework.permissions import AllowAny
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
-from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import User
 
 
 class RegistrationSuccessSerializer(serializers.ModelSerializer):
-    username = serializers.CharField(max_length=50, min_length=4)
-    email = serializers.EmailField(max_length=50, min_length=6)
-    password = serializers.CharField(max_length=50, write_only=True)
     message = serializers.CharField(read_only=True)
     access = serializers.CharField(read_only=True)
     refresh = serializers.CharField(read_only=True)
@@ -20,9 +15,9 @@ class RegistrationSuccessSerializer(serializers.ModelSerializer):
         username = args.get('username', None)
 
         if User.objects.filter(email=email).exists():
-            raise serializers.ValidationError({'email': ('Данная почта уже зарегистрирована')})
+            raise serializers.ValidationError({'email': 'Данная почта уже зарегистрирована'})
         if User.objects.filter(username=username).exists():
-            raise serializers.ValidationError({'username': ('Данная пользователь уже зарегистрирован')})
+            raise serializers.ValidationError({'username': 'Данная пользователь уже зарегистрирован'})
 
         return super().validate(args)
 
@@ -30,8 +25,9 @@ class RegistrationSuccessSerializer(serializers.ModelSerializer):
         return User.objects.create_user(**validated_data)
 
     class Meta:
-        model = User
-        fields = ['username', 'email', 'password', 'access', 'refresh', 'message']
+        model = get_user_model()
+        fields = ('username', 'email', 'password', 'access', 'refresh', 'message')
+        extra_kwargs = {'password': {'write_only': True, 'min_length': 4}}
 
 
 class MessageResponseSerializer(serializers.Serializer):
