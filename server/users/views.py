@@ -47,8 +47,6 @@ class MyObtainTokenPairView(TokenObtainPairView):
     permission_classes = (AllowAny,)
     serializer_class = MyTokenObtainPairSerializer
 
-    @swagger_auto_schema(responses={201: DetailResponseSerializer,
-                                    400: MessageResponseSerializer})
     @classmethod
     def get_token(cls, user):
         token = super(MyTokenObtainPairSerializer, cls).get_token(user)
