@@ -39,7 +39,7 @@ class RegistrationAPIView(GenericAPIView):
 
 class LoginUser(TokenObtainPairView):
     """ Авторизация пользователя. Т.к. я пока не доконца разобрался, то напишу тут. В Response с ошибкой 401
-    (т.е. неверные данные для входа) выдаётся {"detail": "string"} """
+    (т.е. неверные данные для входа) выдаётся {"detail": "string} """
     pass
 
 # class UserLogout(GenericAPIView):
