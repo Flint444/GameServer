@@ -3,12 +3,12 @@ from rest_framework import status
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken, Token
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import User
 from .serializer import RegistrationSuccessSerializer, UserSerializer, RecordSerializer, ChangeRecordSerializer, \
-    ChangeClickSerializer, ChangeBalanceSerializer, MessageResponseSerializer, MyTokenObtainPairSerializer
+    ChangeClickSerializer, ChangeBalanceSerializer, MessageResponseSerializer
 
 
 # Create your views here.
@@ -35,20 +35,6 @@ class RegistrationAPIView(GenericAPIView):
             return Response(data, status=status.HTTP_201_CREATED)
 
         return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
-
-
-class MyObtainTokenPairView(TokenObtainPairView):
-
-    permission_classes = (AllowAny,)
-    serializer_class = MyTokenObtainPairSerializer
-
-    @classmethod
-    def get_token(cls, user):
-        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
-
-        # Add custom claims
-        token['username'] = user.username
-        return Response(token, status=status.HTTP_201_CREATED)
 
 
 # class UserLogout(GenericAPIView):

@@ -1,6 +1,5 @@
 from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 
 from .models import User
 
@@ -17,7 +16,7 @@ class RegistrationSuccessSerializer(serializers.ModelSerializer):
         if User.objects.filter(email=email).exists():
             raise serializers.ValidationError({'email': 'Данная почта уже зарегистрирована'})
         if User.objects.filter(username=username).exists():
-            raise serializers.ValidationError({'username': 'Данная пользователь уже зарегистрирован'})
+            raise serializers.ValidationError({'username': 'Данный пользователь уже зарегистрирован'})
 
         return super().validate(args)
 
@@ -35,10 +34,6 @@ class MessageResponseSerializer(serializers.Serializer):
 
 class DetailResponseSerializer(serializers.Serializer):
     detail = serializers.CharField()
-
-class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-    username = serializers.CharField(max_length=50, min_length=4)
-    password = serializers.CharField(max_length=50, write_only=True)
 
 
 class UserSerializer(serializers.ModelSerializer):
