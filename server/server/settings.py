@@ -115,10 +115,12 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'MoleDataBase',
-        'USER': 'admin',
-        'PASSWORD': 'admin',
+        'USER': 'postgres',
+        'PASSWORD': '1234',
         'HOST': 'localhost',
-        'PORT': '5433',
+        'PORT': 54321,
+        #'HOST': 'localhost',
+        #'PORT': 5433,
     }
 }
 
