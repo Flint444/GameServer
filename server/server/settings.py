@@ -113,12 +113,12 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # DataBase PostgreSQL
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'MoleDataBase',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'server',
         'USER': 'postgres',
-        'PASSWORD': '1234',
-        'HOST': 'localhost',
-        'PORT': 54321,
+        'PASSWORD': 'postgres',
+        'HOST': 'db',
+        'PORT': 5432,
         #'HOST': 'localhost',
         #'PORT': 5433,
     }
