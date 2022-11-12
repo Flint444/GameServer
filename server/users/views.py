@@ -37,6 +37,11 @@ class RegistrationAPIView(GenericAPIView):
         return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class LoginUser(TokenObtainPairView):
+    """ Авторизация пользователя. Т.к. я пока не доконца разобрался, то напишу тут. В Response с ошибкой 401
+    (т.е. неверные данные для входа) выдаётся {"detail": "string"} """
+    pass
+
 # class UserLogout(GenericAPIView):
 #     """ Выход из аккаунта """
 #     permission_classes = (IsAuthenticated,)
