@@ -1,5 +1,8 @@
+from django.contrib.auth import logout
+from django.core.exceptions import ObjectDoesNotExist
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
+from rest_framework.decorators import action, api_view
 from rest_framework.generics import GenericAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
@@ -41,15 +44,6 @@ class LoginUser(TokenObtainPairView):
     """ Авторизация пользователя. Т.к. я пока не доконца разобрался, то напишу тут. В Response с ошибкой 401
     (т.е. неверные данные для входа) выдаётся {"detail": "string"} """
     pass
-
-# class UserLogout(GenericAPIView):
-#     """ Выход из аккаунта """
-#     permission_classes = (IsAuthenticated,)
-#     serializer_class = UserSerializer
-#     def get(self, request):
-#         request.user.auth_token.delete()
-#         logout(request)
-#         return Response('User Logged out successfully')
 
 class UserView(GenericAPIView):
     """Получение данных текущего пользователя"""
