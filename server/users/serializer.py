@@ -35,6 +35,11 @@ class MessageResponseSerializer(serializers.Serializer):
 class DetailResponseSerializer(serializers.Serializer):
     detail = serializers.CharField()
 
+class UnAuthenticated(serializers.Serializer):
+    detail = serializers.CharField()
+    code = serializers.CharField()
+    messages = serializers.DictField()
+
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User

@@ -9,7 +9,7 @@ from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import User
 from .serializer import RegistrationSuccessSerializer, UserSerializer, RecordSerializer, ChangeRecordSerializer, \
-    ChangeClickSerializer, ChangeBalanceSerializer, MessageResponseSerializer, DetailResponseSerializer
+    ChangeClickSerializer, ChangeBalanceSerializer, MessageResponseSerializer, DetailResponseSerializer, UnAuthenticated
 
 
 # Create your views here.
@@ -44,8 +44,10 @@ class RegistrationAPIView(GenericAPIView):
 
 class LoginUser(TokenObtainPairView):
     """ Авторизация пользователя"""
+
     @extend_schema(responses={200: TokenObtainPairSerializer,
                               401: DetailResponseSerializer})
+
     def post(self, request, *args, **kwargs):
         return super().post(request, args, kwargs)
 
@@ -54,6 +56,10 @@ class UserView(GenericAPIView):
 
     permission_classes = (IsAuthenticated, )
     serializer_class = UserSerializer
+
+    @extend_schema(responses={201: UserSerializer,
+                              401: UnAuthenticated})
+
     def get(self, request):
         user = request.user
         serializer = self.serializer_class(user)
@@ -65,6 +71,9 @@ class UserRecords(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = RecordSerializer
 
+    @extend_schema(responses={201: UserSerializer,
+                              401: UnAuthenticated})
+
     def get(self, request):
         users = User.objects.order_by('-record')[:10]
         serializer = RecordSerializer(users, many=True)
@@ -74,6 +83,9 @@ class UpdateBalance(GenericAPIView):
     """Заменить текущее значение баланса пользователя на указавнную сумму"""
     permission_classes = (IsAuthenticated,)
     serializer_class = ChangeBalanceSerializer
+
+    @extend_schema(responses={201: UserSerializer,
+                              401: UnAuthenticated})
 
     def put(self, request):
         user = request.user
@@ -86,6 +98,9 @@ class UpdateRecord(GenericAPIView):
     permission_classes = (IsAuthenticated,)
     serializer_class = ChangeRecordSerializer
 
+    @extend_schema(responses={201: UserSerializer,
+                              401: UnAuthenticated})
+
     def put(self, request):
         user = request.user
         user.record = request.data["record"]
@@ -96,6 +111,9 @@ class UpdateClicks(GenericAPIView):
     """Изменить число кликов по кроту"""
     permission_classes = (IsAuthenticated,)
     serializer_class = ChangeClickSerializer
+
+    @extend_schema(responses={201: UserSerializer,
+                              401: UnAuthenticated})
 
     def put(self, request):
         user = request.user
