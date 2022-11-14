@@ -36,7 +36,11 @@ class RegistrationAPIView(GenericAPIView):
 
             return Response(data, status=status.HTTP_201_CREATED)
 
-        return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            if request.data['username'] == '' or request.data['email'] == '' or request.data['password'] == '':
+                return Response({"error": "Не все поля заполнены"}, status=status.HTTP_400_BAD_REQUEST)
+            else:
+                return Response({"error": "Данный пользователь зарегистирован"}, status=status.HTTP_400_BAD_REQUEST)
 
 class LoginUser(TokenObtainPairView):
     """ Авторизация пользователя"""

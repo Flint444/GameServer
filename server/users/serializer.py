@@ -30,7 +30,7 @@ class RegistrationSuccessSerializer(serializers.ModelSerializer):
 
 
 class MessageResponseSerializer(serializers.Serializer):
-    message = serializers.DictField()
+    error = serializers.CharField()
 
 class DetailResponseSerializer(serializers.Serializer):
     detail = serializers.CharField()
