@@ -1,17 +1,15 @@
-from django.contrib.auth import logout
-from django.core.exceptions import ObjectDoesNotExist
 from drf_spectacular.utils import extend_schema
 from rest_framework import status
-from rest_framework.decorators import action, api_view
 from rest_framework.generics import GenericAPIView
-from rest_framework.permissions import IsAuthenticated, AllowAny
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken, Token
+from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 
 from .models import User
 from .serializer import RegistrationSuccessSerializer, UserSerializer, RecordSerializer, ChangeRecordSerializer, \
-    ChangeClickSerializer, ChangeBalanceSerializer, MessageResponseSerializer
+    ChangeClickSerializer, ChangeBalanceSerializer, MessageResponseSerializer, DetailResponseSerializer
 
 
 # Create your views here.
@@ -41,9 +39,11 @@ class RegistrationAPIView(GenericAPIView):
 
 
 class LoginUser(TokenObtainPairView):
-    """ Авторизация пользователя. Т.к. я пока не доконца разобрался, то напишу тут. В Response с ошибкой 401
-    (т.е. неверные данные для входа) выдаётся {"detail": "string"} """
-    pass
+    """ Авторизация пользователя. Т.к. я бог программирования. Я разобрался."""
+    @extend_schema(responses={200: TokenObtainPairSerializer,
+                              401: DetailResponseSerializer})
+    def post(self, request, *args, **kwargs):
+        return super().post(request, args, kwargs)
 
 class UserView(GenericAPIView):
     """Получение данных текущего пользователя"""
