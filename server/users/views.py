@@ -16,6 +16,7 @@ from .serializer import RegistrationSuccessSerializer, UserSerializer, RecordSer
 class RegistrationAPIView(GenericAPIView):
     """
     Регистрация пользователя
+
     """
     serializer_class = RegistrationSuccessSerializer
 
@@ -37,9 +38,8 @@ class RegistrationAPIView(GenericAPIView):
 
         return Response({"message": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
-
 class LoginUser(TokenObtainPairView):
-    """ Авторизация пользователя. Т.к. я бог программирования. Я разобрался."""
+    """ Авторизация пользователя"""
     @extend_schema(responses={200: TokenObtainPairSerializer,
                               401: DetailResponseSerializer})
     def post(self, request, *args, **kwargs):
