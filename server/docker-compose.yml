@@ -8,10 +8,10 @@ services:
       - 8000:8000
 
     environment:
-      DB_HOST: db
-      DB_NAME: server
-      DB_USER: postgres
-      DB_PASS: postgres
+      DB_HOST: ec2-52-19-188-149.eu-west-1.compute.amazonaws.com
+      DB_NAME: daiqrnbks9gsvn
+      DB_USER: yqnvckocyagpvc
+      DB_PASS: 9b329f0b614045ddcb2545ebad5ae0176373e5cd94ed82036d5ea4749b73942d
 
     depends_on:
       - db
@@ -19,7 +19,7 @@ services:
     container_name: app_container
     command: >
       sh -c "python3 manage.py migrate &&
-             python3 manage.py runserver 0.0.0.0:8000"
+             python3 manage.py runserver"
 
 
   db:
@@ -28,9 +28,9 @@ services:
 #    volumes:
 #      - ./server/db:/var/lib/postgresql/data
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_DB: server
+      POSTGRES_USER: yqnvckocyagpvc
+      POSTGRES_PASSWORD: 9b329f0b614045ddcb2545ebad5ae0176373e5cd94ed82036d5ea4749b73942d
+      POSTGRES_DB: daiqrnbks9gsvn
     ports:
       - "5432:5432"
 

@@ -110,19 +110,36 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-# DataBase PostgreSQL
+# DataBase PostgreSQL for Docker
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'server',
+#         'USER': 'postgres',
+#         'PASSWORD': 'postgres',
+#         'HOST': 'db',
+#         'PORT': 5432,
+#         #'HOST': 'localhost',
+#         #'PORT': 5433,
+#     }
+# }
+
+
+# DataBase PostgreSQL for Docker on hosting
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'server',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
-        'HOST': 'db',
+        'NAME': 'daiqrnbks9gsvn',
+        'USER': 'yqnvckocyagpvc',
+        'PASSWORD': '9b329f0b614045ddcb2545ebad5ae0176373e5cd94ed82036d5ea4749b73942d',
+        'HOST': 'ec2-52-19-188-149.eu-west-1.compute.amazonaws.com',
         'PORT': 5432,
-        #'HOST': 'localhost',
-        #'PORT': 5433,
     }
 }
+
+import dj_database_url
+db_from_mole = dj_database_url.config(conn_max_age=600)
+DATABASES['default'].update(db_from_mole)
 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
