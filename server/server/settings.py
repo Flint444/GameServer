@@ -125,7 +125,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 # }
 
 
-# DataBase PostgreSQL for Docker on hosting
+# DataBase PostgreSQL for Docker on hosting Heroku
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -136,6 +136,18 @@ DATABASES = {
         'PORT': 5432,
     }
 }
+
+# DataBase PostgreSQL for Docker on hosting railway
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'railway',
+#         'USER': 'postgres',
+#         'PASSWORD': 'aelk5KZ4C5QJj9EUxPaR',
+#         'HOST': 'containers-us-west-115.railway.app',
+#         'PORT': 6304,
+#     }
+# }
 
 import dj_database_url
 db_from_mole = dj_database_url.config(conn_max_age=600)
