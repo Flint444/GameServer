@@ -103,9 +103,18 @@ class UpdateRecord(GenericAPIView):
 
     def put(self, request):
         user = request.user
+
+        record = user.record
+
         user.record = request.data["record"]
-        user.save()
-        return Response(data={'message': 'Рекорд успешно изменён'})
+        #user.record = request.data
+        new_record = user.record
+
+        if record < new_record:
+            user.save()
+            return Response(data={'message': 'Рекорд успешно изменён'})
+        else:
+            return Response(data={'message': 'Вы не побили рекорд'})
 
 class UpdateClicks(GenericAPIView):
     """Изменить число кликов по кроту"""
